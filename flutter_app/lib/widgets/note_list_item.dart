@@ -4,6 +4,7 @@ import '../providers/note_provider.dart';
 import '../screens/note_details_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import '../utils/constants.dart';
 
 class NoteListItem extends StatelessWidget {
   final Note note;
@@ -14,7 +15,7 @@ class NoteListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8),
-      color: Colors.white54,
+      color: kSecondayBackgroundColor,
       child: ListTile(
         leading: note.imageUrl != null && note.imageUrl!.isNotEmpty
             ? Image.network(
@@ -26,20 +27,22 @@ class NoteListItem extends StatelessWidget {
                     const Icon(Icons.image, size: 50),
               )
             : const Icon(Icons.note, size: 50),
-        title: Text(note.title),
+        title: Text(
+          note.title,
+          style: kHeadline2,
+        ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               DateFormat.yMMMd().format(note.createdAt!),
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              style: kBodyText2,
             ),
             Padding(padding: const EdgeInsets.only(top: 6.0)),
-            Text(
-              note.content!,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-            ),
+            Text(note.content!,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: kBodyText1),
           ],
         ),
         trailing: PopupMenuButton<String>(

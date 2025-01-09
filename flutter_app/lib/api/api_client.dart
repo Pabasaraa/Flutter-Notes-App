@@ -1,9 +1,9 @@
 import 'dart:convert';
-
 import 'package:http/http.dart' as http;
+import '../utils/constants.dart';
 
 class ApiClient {
-  static const String baseUrl = 'http://10.0.2.2:5000';
+  static const String baseUrl = kBackendUrl;
 
   static Future<http.Response> get(String endpoint) async {
     return await http.get(Uri.parse('$baseUrl$endpoint'));

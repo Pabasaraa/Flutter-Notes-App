@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/note.dart';
 import 'add_edit_note_screen.dart';
+import '../utils/constants.dart';
 
 class NoteDetailsScreen extends StatelessWidget {
   final Note note;
@@ -10,21 +11,27 @@ class NoteDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: kBackgroundColor,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight + 10),
         child: Padding(
           padding: const EdgeInsets.only(top: 10),
           child: AppBar(
             elevation: 0,
+            backgroundColor: Colors.transparent,
             title: const Text(
               'Note Details',
-              style: TextStyle(
-                fontWeight: FontWeight.w400,
-              ),
+              style: kHeadline2,
+            ),
+            iconTheme: IconThemeData(
+              color: kPrimaryTextColor,
             ),
             actions: [
               IconButton(
-                icon: const Icon(Icons.edit),
+                icon: const Icon(
+                  Icons.edit,
+                  color: kSecondaryTextColor,
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -46,9 +53,7 @@ class NoteDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 note.title,
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: kHeadline1,
               ),
               const SizedBox(height: 10),
               if (note.imageUrl != null && note.imageUrl!.isNotEmpty)
@@ -63,7 +68,7 @@ class NoteDetailsScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Text(
                 note.content!,
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: kNoteBody,
               ),
             ],
           ),

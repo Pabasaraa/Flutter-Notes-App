@@ -2,7 +2,7 @@ class Note {
   final String? id;
   final String title;
   final String? content;
-  String? imageUrl;
+  final String? imageUrl;
   final DateTime? createdAt;
 
   Note({

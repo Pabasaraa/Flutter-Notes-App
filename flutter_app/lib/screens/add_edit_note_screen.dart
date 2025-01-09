@@ -3,7 +3,8 @@ import 'package:provider/provider.dart';
 import '../models/note.dart';
 import '../providers/note_provider.dart';
 import '../utils/image_picker_util.dart';
-import '../widgets/custom_text_field.dart'; // Import the custom widget
+import '../widgets/custom_text_field.dart';
+import '../utils/constants.dart';
 
 class AddEditNoteScreen extends StatefulWidget {
   final Note? note;
@@ -84,14 +85,27 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.note == null ? 'Add Note' : 'Edit Note'),
+        backgroundColor: kBackgroundColor,
+        title: Text(
+          widget.note == null ? 'Add Note' : 'Edit Note',
+          style: TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+            color: kPrimaryTextColor,
+          ),
+        ),
+        iconTheme: IconThemeData(
+          color: kPrimaryTextColor,
+        ),
         actions: [
           IconButton(
+            color: kPrimaryTextColor,
             icon: const Icon(Icons.save),
             onPressed: saveNote,
           ),
         ],
       ),
+      backgroundColor: kBackgroundColor,
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(

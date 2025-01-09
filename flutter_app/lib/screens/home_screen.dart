@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../providers/note_provider.dart';
 import '../widgets/note_list_item.dart';
 import 'add_edit_note_screen.dart';
+import '../utils/constants.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -30,6 +31,7 @@ class HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: Colors.transparent,
       ),
+      backgroundColor: kBackgroundColor,
       body: FutureBuilder(
         future: noteProvider.fetchNotes(),
         builder: (context, snapshot) {
@@ -57,7 +59,7 @@ class HomeScreenState extends State<HomeScreen> {
                         style: TextStyle(
                           fontSize: 48,
                           fontWeight: FontWeight.bold,
-                          color: Colors.black87,
+                          color: kPrimaryTextColor,
                         ),
                       ),
                     ),
@@ -65,6 +67,7 @@ class HomeScreenState extends State<HomeScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 16.0),
                       child: TextField(
                         controller: searchController,
+                        style: TextStyle(color: kPrimaryTextColor),
                         decoration: InputDecoration(
                           hintText: 'Search by title...',
                           border: OutlineInputBorder(
@@ -101,16 +104,19 @@ class HomeScreenState extends State<HomeScreen> {
                       )
                     else
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: notes.length,
-                          itemBuilder: (context, index) {
-                            final note = notes[index];
-                            return Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 4.0),
-                              child: NoteListItem(note: note),
-                            );
-                          },
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: ListView.builder(
+                            itemCount: notes.length,
+                            itemBuilder: (context, index) {
+                              final note = notes[index];
+                              return Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 4.0),
+                                child: NoteListItem(note: note),
+                              );
+                            },
+                          ),
                         ),
                       ),
                   ],
