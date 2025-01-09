@@ -1,22 +1,22 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import '../api/note_api.dart';
 
 class ImagePickerUtil {
-  static Future<String?> pickAndUploadImage() async {
+  static Future<File?> pickImage(ImageSource source) async {
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: source);
 
     if (pickedFile != null) {
-      final imageUrl = await uploadImageToBackend(pickedFile.path);
-      return imageUrl;
+      return File(pickedFile.path);
     }
     return null;
   }
 
-  static Future<String> uploadImageToBackend(String filePath) async {
+  static Future<String> uploadImageToBackend(File file) async {
     try {
-      final response = await NoteApi.uploadImage(filePath);
+      final response = await NoteApi.uploadImage(file.path);
       final responseBody = jsonDecode(response.body);
       final imageUrl = responseBody['imageUrl'];
       return imageUrl;

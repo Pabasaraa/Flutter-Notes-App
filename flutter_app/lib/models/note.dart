@@ -1,17 +1,21 @@
-class Note {
+import 'package:equatable/equatable.dart';
+
+class Note extends Equatable {
   final String? id;
   final String title;
   final String? content;
   final String? imageUrl;
   final DateTime? createdAt;
 
-  Note({
+  const Note({
     this.id,
     required this.title,
     this.content,
     this.imageUrl,
     this.createdAt,
   });
+  @override
+  List<Object?> get props => [id, title, content, imageUrl, createdAt];
 
   factory Note.fromJson(Map<String, dynamic> json) {
     return Note(

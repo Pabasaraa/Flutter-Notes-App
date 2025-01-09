@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import '../models/note.dart';
 import '../providers/note_provider.dart';
@@ -20,6 +23,7 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
   final _titleController = TextEditingController();
   final _contentController = TextEditingController();
   String? _imageUrl;
+  File? imageFile;
 
   @override
   void initState() {
@@ -42,7 +46,11 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
     if (_formKey.currentState!.validate()) {
       final title = _titleController.text.trim();
       final content = _contentController.text.trim();
-      final imageUrl = _imageUrl ?? '';
+      String imageUrl = _imageUrl ?? '';
+
+      if (imageFile != null) {
+        imageUrl = await ImagePickerUtil.uploadImageToBackend(imageFile!);
+      }
 
       final note = widget.note == null
           ? Note(title: title, content: content, imageUrl: imageUrl)
@@ -73,12 +81,51 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
   }
 
   Future<void> _pickImage() async {
-    final imageUrl = await ImagePickerUtil.pickAndUploadImage();
-    if (imageUrl != null && mounted) {
-      setState(() {
-        _imageUrl = imageUrl;
-      });
-    }
+    await showModalBottomSheet(
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          height: 150,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Choose from Gallery'),
+                onTap: () async {
+                  final imageF =
+                      await ImagePickerUtil.pickImage(ImageSource.gallery);
+                  if (imageF != null && mounted) {
+                    setState(() {
+                      imageFile = imageF;
+                    });
+                  }
+                  if (!context.mounted) return;
+
+                  Navigator.pop(context);
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () async {
+                  final imageF =
+                      await ImagePickerUtil.pickImage(ImageSource.camera);
+                  if (imageF != null && mounted) {
+                    setState(() {
+                      imageFile = imageF;
+                    });
+                  }
+                  if (!context.mounted) return;
+
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -128,7 +175,28 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
                   maxLines: 5,
                 ),
                 const SizedBox(height: 20),
-                if (_imageUrl != null)
+                if (imageFile != null)
+                  Center(
+                    child: Column(
+                      children: [
+                        Image.file(
+                          imageFile!,
+                          height: 150,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(height: 10),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              imageFile = null;
+                            });
+                          },
+                          child: const Text('Remove Image'),
+                        ),
+                      ],
+                    ),
+                  )
+                else if (_imageUrl != null)
                   Center(
                     child: Column(
                       children: [

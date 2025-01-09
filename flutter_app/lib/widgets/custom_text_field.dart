@@ -26,6 +26,7 @@ class CustomTextField extends StatelessWidget {
           borderRadius: BorderRadius.circular(8.0),
         ),
       ),
+      textInputAction: TextInputAction.next,
       validator: validator,
       maxLines: maxLines,
     );
