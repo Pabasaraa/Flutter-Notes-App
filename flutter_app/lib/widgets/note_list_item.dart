@@ -3,6 +3,7 @@ import '../models/note.dart';
 import '../providers/note_provider.dart';
 import '../screens/note_details_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:intl/intl.dart';
 
 class NoteListItem extends StatelessWidget {
   final Note note;
@@ -12,9 +13,8 @@ class NoteListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(4),
-      margin: const EdgeInsets.symmetric(vertical: 8),
-      color: Colors.grey[200],
+      padding: const EdgeInsets.all(8),
+      color: Colors.white54,
       child: ListTile(
         leading: note.imageUrl != null && note.imageUrl!.isNotEmpty
             ? Image.network(
@@ -27,10 +27,20 @@ class NoteListItem extends StatelessWidget {
               )
             : const Icon(Icons.note, size: 50),
         title: Text(note.title),
-        subtitle: Text(
-          note.content!,
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              DateFormat.yMMMd().format(note.createdAt!),
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            Padding(padding: const EdgeInsets.only(top: 6.0)),
+            Text(
+              note.content!,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         ),
         trailing: PopupMenuButton<String>(
           icon: const Icon(Icons.more_vert),

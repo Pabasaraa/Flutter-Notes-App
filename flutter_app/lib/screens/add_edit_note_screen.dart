@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/note.dart';
 import '../providers/note_provider.dart';
 import '../utils/image_picker_util.dart';
+import '../widgets/custom_text_field.dart'; // Import the custom widget
 
 class AddEditNoteScreen extends StatefulWidget {
   final Note? note;
@@ -99,17 +100,17 @@ class AddEditNoteScreenState extends State<AddEditNoteScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                TextFormField(
+                CustomTextField(
                   controller: _titleController,
-                  decoration: const InputDecoration(labelText: 'Title'),
+                  labelText: 'Title',
                   validator: (value) => value == null || value.isEmpty
                       ? 'Title is required'
                       : null,
                 ),
                 const SizedBox(height: 10),
-                TextFormField(
+                CustomTextField(
                   controller: _contentController,
-                  decoration: const InputDecoration(labelText: 'Content'),
+                  labelText: 'Content',
                   maxLines: 5,
                 ),
                 const SizedBox(height: 20),

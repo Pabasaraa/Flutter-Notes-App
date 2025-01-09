@@ -10,21 +10,33 @@ class NoteDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Note Details'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.edit),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AddEditNoteScreen(note: note),
-                ),
-              );
-            },
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight + 10),
+        child: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: AppBar(
+            elevation: 0,
+            title: const Text(
+              'Note Details',
+              style: TextStyle(
+                fontWeight: FontWeight.w400,
+              ),
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.edit),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AddEditNoteScreen(note: note),
+                    ),
+                  );
+                },
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),

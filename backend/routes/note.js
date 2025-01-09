@@ -1,8 +1,4 @@
 import express from 'express';
-import multer from 'multer';
-
-const upload = multer({ storage: multer.memoryStorage() });
-
 import {
   createNote,
   getNotes,
@@ -14,6 +10,7 @@ import { validateImageUrl, validateNote } from '../utils/validator.js';
 
 const router = express.Router();
 
+// Route Definitions
 router.post('/', validateNote, validateImageUrl, createNote);
 router.get('/', getNotes);
 router.get('/:id', getNote);
